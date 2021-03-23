@@ -123,7 +123,7 @@ class SearchBar {
     });
   }
   
-  close() {
+  close(BuildContext context) {
     onClosed?.call();
     if (clearOnClose) {
       controller.clear();
@@ -155,7 +155,9 @@ class SearchBar {
           icon: const BackButtonIcon(),
           color: buttonColor,
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          onPressed: close,
+          onPressed: () {
+            close(context);
+          },
       ),
       backgroundColor: inBar ? null : theme.canvasColor,
       title: Directionality(
