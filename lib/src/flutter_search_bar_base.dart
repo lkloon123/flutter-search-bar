@@ -122,6 +122,14 @@ class SearchBar {
       isSearching.value = true;
     });
   }
+  
+  close() {
+    onClosed?.call();
+    if (clearOnClose) {
+      controller.clear();
+    }
+    Navigator.maybePop(context);
+  }
 
   /// Builds, saves and returns the default app bar.
   ///
@@ -147,13 +155,8 @@ class SearchBar {
           icon: const BackButtonIcon(),
           color: buttonColor,
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          onPressed: () {
-            onClosed?.call();
-            if (clearOnClose) {
-              controller.clear();
-            }
-            Navigator.maybePop(context);
-          }),
+          onPressed: close,
+      ),
       backgroundColor: inBar ? null : theme.canvasColor,
       title: Directionality(
         textDirection: Directionality.of(context),
