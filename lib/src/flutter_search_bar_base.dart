@@ -18,6 +18,9 @@ class SearchBar {
 
   /// Whether the text field should be cleared when it is submitted
   final bool clearOnSubmit;
+  
+  /// Whether the text field should be cleared when search bar is closed.
+  final bool clearOnClose;
 
   /// A callback which should return an AppBar that is displayed until search is started. One of the actions in this AppBar should be a search button which you obtain from SearchBar.getSearchAction(). This will be called every time search is ended, etc. (like a build method on a widget)
   final AppBarCallback buildDefaultAppBar;
@@ -67,6 +70,7 @@ class SearchBar {
     this.inBar = true,
     this.closeOnSubmit = true,
     this.clearOnSubmit = true,
+    this.clearOnClose = true,
     this.showClearButton = true,
     this.onChanged,
     this.onClosed,
@@ -145,7 +149,9 @@ class SearchBar {
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: () {
             onClosed?.call();
-            controller.clear();
+            if (clearOnClose) {
+              controller.clear();
+            }
             Navigator.maybePop(context);
           }),
       backgroundColor: inBar ? null : theme.canvasColor,
